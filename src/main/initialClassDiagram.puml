@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+
+package Models {
+    StandardFDM ..> Spool
+    Printer ..> Spool
+    PrintTask o-- Print
+    PrintTask o-- FilamentType
+    Spool o-- FilamentType
+    MultiColor o-- Spool
+
+    abstract class Printer {}
+
+    class StandardFDM extends Printer {}
+
+    class HousedPrinter extends StandardFDM {}
+
+    class MultiColor extends StandardFDM {}
+
+    class Spool {}
+
+    class PrintTask {}
+
+    enum FilamentType {
+    PLA
+    PETG
+    ABS
+    }
+}
+
+package nl.saxion {
+    PrinterManager ..> Printer
+    PrinterManager ..> Print
+    PrinterManager ..> PrintTask
+    PrinterManager ..> Spool
+    PrinterManager ..> StandardFDM
+    PrinterManager ..> HousedPrinter
+    PrinterManager ..> MultiColor
+    PrinterManager ..> FilamentType
+    PrinterManager -- Main
+    class PrinterManager {}
+    class Main {}
+}
+
+
+@enduml
