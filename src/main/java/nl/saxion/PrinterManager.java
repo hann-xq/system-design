@@ -14,6 +14,7 @@ public class PrinterManager {
     private List<PrintTask> pendingPrintTasks = new ArrayList<>();
     private Map<Printer, PrintTask> runningPrintTasks = new HashMap();
 
+    //TODO: Long parameter list
     public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors) {
         if (printerType == 1) {
             StandardFDM printer = new StandardFDM(id, printerName, manufacturer, maxX, maxY, maxZ);
@@ -34,6 +35,7 @@ public class PrinterManager {
         return list.stream().anyMatch(o -> o.getColor().equals(name));
     }
 
+    //TODO: Long method
     public void selectPrintTask(Printer printer) {
         Spool[] spools = printer.getCurrentSpools();
         PrintTask chosenTask = null;
@@ -82,7 +84,7 @@ public class PrinterManager {
             for(PrintTask printTask: pendingPrintTasks) {
                 if(printer.printFits(printTask.getPrint()) && getPrinterCurrentTask(printer) == null) {
                     if (printer instanceof StandardFDM && printTask.getFilamentType() != FilamentType.ABS && printTask.getColors().size() == 1) {
-                        Spool chosenSpool = null;
+                        Spool chosenSpool = null; //TODO: duplicate code (15 lines)
                         for (Spool spool : freeSpools) {
                             if (spool.spoolMatch(printTask.getColors().get(0), printTask.getFilamentType())) {
                                 chosenSpool = spool;

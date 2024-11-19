@@ -17,7 +17,7 @@ public abstract class Printer {
         return id;
     }
 
-    public abstract int CalculatePrintTime(String filename);
+    public abstract int CalculatePrintTime(String filename); //TODO: Dead code
 
     public abstract Spool[] getCurrentSpools();
 
