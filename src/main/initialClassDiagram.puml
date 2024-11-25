@@ -39,6 +39,14 @@ package nl.saxion {
     PrinterManager ..> MultiColor
     PrinterManager ..> FilamentType
     PrinterManager -- Main
+    Main ..> Print
+    Main ..> FilamentType
+    Main ..> Printer
+    Main ..> PrintTask
+    Main ..> Spool
+    Main ..> StandardFDM
+
+
     class PrinterManager {}
     class Main {}
 }
