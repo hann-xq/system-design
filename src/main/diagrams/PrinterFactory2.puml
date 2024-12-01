@@ -1,0 +1,58 @@
+@startuml
+'https://plantuml.com/class-diagram
+PrinterFactory --> Printer
+ Printer --* PrintSize
+
+abstract class Printer {
+    - int id;
+    - String name;
+    - String manufacturer;
+    - Spool currentSpool;
+    - PrintSize printSize
+
+    +Printer(int id, String printerName, String manufacturer, PrintSize printSize)
+    +getId()
+    +printFits(Print print)
+    +getName()
+}
+
+class PrintSize {
+    - int maxX;
+    - int maxY;
+    - int maxZ;
+    +PrintSize(int maxX, int maxY, int maxZ)
+}
+
+class SingleSpoolPrinter extends Printer {
+    +getCurrentSpool()
+    +setCurrentSpool(Spool spool)
+}
+
+class MultiSpoolPrinter extends Printer {
+    +Spool[] spools
+    +getCurrentSpools()
+    +setCurrentSpools(ArrayList<Spool> spools)
+}
+
+class StandardFDM extends SingleSpoolPrinter {
+}
+
+class MultiColor extends MultiSpoolPrinter {
+    -int maxColors;
+    +getMaxColors()
+}
+
+class HousedPrinter extends SingleSpoolPrinter {
+}
+
+class PrinterFactory {
+  - id: int
+  - name: String
+  - manufacturer: String
+  - maxX: int
+  - maxY: int
+  - maxColors: int
+  + createPrinter(type: String): Printer
+}
+
+@enduml
