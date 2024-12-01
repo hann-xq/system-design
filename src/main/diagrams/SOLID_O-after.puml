@@ -1,34 +1,49 @@
 @startuml
 'https://plantuml.com/class-diagram
-skinparam classAttributeIconSize 0
+'skinparam classAttributeIconSize 0
+
+Printer --* PrintSize
 
 abstract class Printer {
     - int id;
     - String name;
     - String manufacturer;
+    - Spool currentSpool;
+    - PrintSize printSize
+
+    +Printer(int id, String printerName, String manufacturer, PrintSize printSize)
+    +getId()
+    +printFits(Print print)
+    +getName()
+}
+
+class PrintSize {
     - int maxX;
     - int maxY;
     - int maxZ;
-    - Spool currentSpool;
-
-    getId()
-    getCurrentSpool()
-    setCurrentSpool(Spool spool)
-    printFits(Print print)
-    getName()
+    +PrintSize(int maxX, int maxY, int maxZ)
 }
 
-class StandardFDM extends Printer {
-
+class SingleSpoolPrinter extends Printer {
+    +getCurrentSpool()
+    +setCurrentSpool(Spool spool)
 }
 
-class MultiColor extends Printer {
-    getCurrentSpools()
-    setCurrentSpools(ArrayList<Spool> spools)
-    getMaxColors()
+class MultiSpoolPrinter extends Printer {
+    +Spool[] spools
+    +getCurrentSpools()
+    +setCurrentSpools(ArrayList<Spool> spools)
 }
 
-class HousedPrinter extends Printer {
+class StandardFDM extends SingleSpoolPrinter {
+}
+
+class MultiColor extends MultiSpoolPrinter {
+    -int maxColors;
+    +getMaxColors()
+}
+
+class HousedPrinter extends SingleSpoolPrinter {
 }
 
 @enduml

@@ -21,16 +21,12 @@ class printerFacade {
 
     startPrintQueue()
     changePrintStrategy()
-    registerPrintCompletion()
-    registerPrinterFailure()
     addNewPrintTask()
     showPrints()
     showSpools()
     showPrinters()
     showPendingPrintTasks()
-    readPrintsFromFile(String filename)
-    readPrintersFromFile(String filename)
-    readSpoolsFromFile(String filename)
+
 }
 
 package managers {
@@ -44,6 +40,7 @@ printerFacade *-- SpoolManager
         registerPrinterFailure(int printerId)
         registerCompletion(int printerId)
         printError(String s)
+        readPrintersFromFile(String filename)
     }
 
     class PrintManager {
@@ -51,13 +48,14 @@ printerFacade *-- SpoolManager
         getPrints()
         findPrint(String printName)
         findPrint(int index)
+        readPrintsFromFile(String filename)
     }
 
     class PrintTaskManager {
         selectPrintTask()
         startInitialQueue()
         getPrinterCurrentTask()
-        getPendingPrintTasks()\
+        getPendingPrintTasks()
         addPrintTask()
         printError(String s)
     }
@@ -67,6 +65,7 @@ printerFacade *-- SpoolManager
         addSpool(Spool spool)
         getSpools()
         getSpoolByID(int id)
+        readSpoolsFromFile(String filename)
     }
 }
 
