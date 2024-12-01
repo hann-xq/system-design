@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+@startuml
+
+class PrinterFactory {
+  - id: int
+  - name: String
+  - manufacturer: String
+  - maxX: int
+  - maxY: int
+  - maxColors: int
+  + createPrinter(type: String): Printer
+}
+
+class Printer {
+  - id: int
+  - name: String
+  - manufacturer: String
+  + getID(): int
+  + getName(): String
+  + getManufacturer(): String
+  + getMaxX(): int
+  + getMaxY(): int
+  + getCurrentSpools(): ArrayListSpool
+  + printIt(print: Print): boolean
+}
+
+class StandardFDM {
+  - maxX: int
+  - maxY: int
+  - maxZ: int
+  - currentSpool: Spool
+}
+
+class MultiColor {
+  - maxColors: int
+  - spool2: Spool
+  - spool3: Spool
+  - spool4: Spool
+  + getMaxColors(): int
+}
+
+class HousedPrinter{}
+
+PrinterFactory --> Printer : Creates
+Printer --|> StandardFDM
+Printer --|> MultiColor
+Printer --|> HousedPrinter
+
+
+
+@enduml
