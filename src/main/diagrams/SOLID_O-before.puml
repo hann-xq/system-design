@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+
+abstract class Printer {
+    - int id;
+    - String name;
+    - String manufacturer;
+    getId()
+    CalculatePrintTime()
+    getCurrentSpools()
+    setCurrentSpools(ArrayList<Spool> spools)
+    printFits(Print print)
+    getName()
+}
+
+class StandardFDM extends Printer {
+    - final int maxX;
+    - final int maxY;
+    - final int maxZ;
+    - Spool currentSpool;
+
+    setCurrentSpools(ArrayList<Spool> spools)
+    setCurrentSpool(Spool spool)
+    getCurrentSpool()
+    getCurrentSpools()
+    printFits(Print print)
+    CalculatePrintTime(String filename)
+}
+
+class MultiColor extends StandardFDM {
+    - int maxColors;
+    - Spool spool2;
+    - Spool spool3;
+    - Spool spool4;
+
+    setCurrentSpools(ArrayList<Spool> spools)
+    getCurrentSpools()
+    getMaxColors()
+}
+
+class HousedPrinter extends StandardFDM {
+}
+
+@enduml

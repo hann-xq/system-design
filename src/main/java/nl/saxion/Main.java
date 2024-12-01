@@ -65,6 +65,8 @@ public class Main {
         exit();
     }
 
+    /** Print the menu
+     */
     public void menu() {
         System.out.println("------------- Menu ----------------");
         System.out.println("- 1) Add new Print Task");
@@ -80,12 +82,16 @@ public class Main {
 
     }
 
+    /** Starts print queue. Select print task for each printer in the Printermanager
+     *
+     */
     private void startPrintQueue() {
         System.out.println("---------- Starting Print Queue ----------");
         manager.startInitialQueue();
         System.out.println("-----------------------------------");
     }
 
+    // Dead code
     private void exit() {
 
     }

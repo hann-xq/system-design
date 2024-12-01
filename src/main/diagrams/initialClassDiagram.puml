@@ -23,9 +23,9 @@ package Models {
     class PrintTask {}
 
     enum FilamentType {
-    PLA
-    PETG
-    ABS
+        PLA
+        PETG
+        ABS
     }
 }
 

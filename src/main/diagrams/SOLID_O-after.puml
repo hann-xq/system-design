@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+
+abstract class Printer {
+    - int id;
+    - String name;
+    - String manufacturer;
+    - int maxX;
+    - int maxY;
+    - int maxZ;
+    - Spool currentSpool;
+
+    getId()
+    getCurrentSpool()
+    setCurrentSpool(Spool spool)
+    printFits(Print print)
+    getName()
+}
+
+class StandardFDM extends Printer {
+
+}
+
+class MultiColor extends Printer {
+    getCurrentSpools()
+    setCurrentSpools(ArrayList<Spool> spools)
+    getMaxColors()
+}
+
+class HousedPrinter extends Printer {
+}
+
+@enduml

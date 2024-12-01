@@ -31,11 +31,14 @@ public class PrinterManager {
         }
     }
 
-    public boolean containsSpool(final List<Spool> list, final String name){
+    public boolean containsSpool(final List<Spool> list, final String name) {
         return list.stream().anyMatch(o -> o.getColor().equals(name));
     }
 
-    //TODO: Long method
+    /**
+     *
+     * @param printer
+     */
     public void selectPrintTask(Printer printer) {
         Spool[] spools = printer.getCurrentSpools();
         PrintTask chosenTask = null;

@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+
+Main ..> PrinterManager
+
+class Main {
+    - PrinterManager manager
+    - String printStrategy
+    menu()
+    startPrintQueue()
+    changePrintStrategy()
+    registerPrintCompletion()
+    registerPrinterFailure()
+    addNewPrintTask()
+    showPrints()
+    showSpools()
+    showPrinters()
+    showPendingPrintTasks()
+    readPrintsFromFile(String filename)
+    readPrintersFromFile(String filename)
+    readSpoolsFromFile(String filename)
+    menuChoice(int max)
+    stringInput()
+    numberInput()
+    numberInput(int min, int max)
+}
+
+class PrinterManager {
+    - List<Printer> printers;
+    - List<Print> prints
+    - List<Spool> spools
+    - List<Spool> freeSpools
+    - List<Printer> freePrinters
+    - List<PrintTask> pendingPrintTasks
+    - Map<Printer, PrintTask> runningPrintTasks
+
+    addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors)
+    containsSpool(final List<Spool> list, final String name)
+    selectPrintTask(Printer printer)
+    startInitialQueue()
+    addPrint(String name, int height, int width, int length, ArrayList<Double> filamentLength, int printTime)
+    getPrints()
+    getPrinters()
+    getPrinterCurrentTask(Printer printer)
+    getPendingPrintTasks()
+    addPrintTask(String printName, List<String> colors, FilamentType type)
+    findPrint(String printName)
+    findPrint(int index)
+    addSpool(Spool spool)
+    getSpools()
+    getSpoolByID(int id)
+    registerPrinterFailure(int printerId)
+    registerCompletion(int printerId)
+    printError(String s)
+}
+
+
+@enduml
