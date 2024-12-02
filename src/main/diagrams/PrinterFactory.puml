@@ -1,53 +1,62 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-@startuml
+PrinterFactory -- Printer
+PrinterFactory ..> PrintSize
+PrinterFactory ..> PrinterDescription
 
 class PrinterFactory {
-  - id: int
-  - name: String
-  - manufacturer: String
-  - maxX: int
-  - maxY: int
-  - maxColors: int
-  + createPrinter(type: String): Printer
+  + createPrinter(int type, PrinterDescription printerDescription, PrintSize printSize): Printer
 }
 
-class Printer {
-  - id: int
-  - name: String
-  - manufacturer: String
-  + getID(): int
-  + getName(): String
-  + getManufacturer(): String
-  + getMaxX(): int
-  + getMaxY(): int
-  + getCurrentSpools(): ArrayListSpool
-  + printIt(print: Print): boolean
+Printer --* PrintSize
+Printer --* PrinterDescription
+
+abstract class Printer {
+    - PrinterDescription printerDescription
+    - PrintSize printSize
+    - Spool currentSpool
+
+    +Printer(int id, String printerName, String manufacturer, PrintSize printSize)
+    +getId()
+    +printFits(Print print)
+    +getName()
 }
 
-class StandardFDM {
-  - maxX: int
-  - maxY: int
-  - maxZ: int
-  - currentSpool: Spool
+class PrintSize {
+    - int maxX
+    - int maxY
+    - int maxZ
+    + PrintSize(int maxX, int maxY, int maxZ)
 }
 
-class MultiColor {
-  - maxColors: int
-  - spool2: Spool
-  - spool3: Spool
-  - spool4: Spool
-  + getMaxColors(): int
+class PrinterDescription {
+    - int id
+    - String name
+    - String manufacturer
+    + PrinterDescription (int id, String printerName, String manufacturer)
 }
 
-class HousedPrinter{}
+class SingleSpoolPrinter extends Printer {
+    +getCurrentSpool()
+    +setCurrentSpool(Spool spool)
+}
 
-PrinterFactory --> Printer : Creates
-Printer --|> StandardFDM
-Printer --|> MultiColor
-Printer --|> HousedPrinter
+class MultiSpoolPrinter extends Printer {
+    +Spool[] spools
+    +getCurrentSpools()
+    +setCurrentSpools(ArrayList<Spool> spools)
+}
 
+class StandardFDM extends SingleSpoolPrinter {
+}
 
+class MultiColor extends MultiSpoolPrinter {
+    -int maxColors;
+    +getMaxColors()
+}
+
+class HousedPrinter extends SingleSpoolPrinter {
+}
 
 @enduml
