@@ -3,13 +3,12 @@
 'skinparam classAttributeIconSize 0
 
 Printer --* PrintSize
+Printer --* PrinterDescription
 
 abstract class Printer {
-    - int id;
-    - String name;
-    - String manufacturer;
-    - Spool currentSpool;
+    - PrinterDescription printerDescription
     - PrintSize printSize
+    - Spool currentSpool
 
     +Printer(int id, String printerName, String manufacturer, PrintSize printSize)
     +getId()
@@ -18,10 +17,17 @@ abstract class Printer {
 }
 
 class PrintSize {
-    - int maxX;
-    - int maxY;
-    - int maxZ;
-    +PrintSize(int maxX, int maxY, int maxZ)
+    - int maxX
+    - int maxY
+    - int maxZ
+    + PrintSize(int maxX, int maxY, int maxZ)
+}
+
+class PrinterDescription {
+    - int id
+    - String name
+    - String manufacturer
+    + PrinterDescription (int id, String printerName, String manufacturer)
 }
 
 class SingleSpoolPrinter extends Printer {
