@@ -1,20 +1,35 @@
 @startuml
-'https://plantuml.com/class-diagram
+skinparam class {
 
-SpoolLengthReducingStrategy --> Spool
-class Spool{
-    -SpoolLengthReducingStrategy lengthReducingStrategy;
-
-    public Spool()
-    public int getId()
-    public double getLength()
-    public boolean spoolMatch(String color, FilamentType type)
-    public boolean reduceLength(double byLength)
-    public String getColor()
-    public FilamentType getFilamentType()
-
+    ArrowColor Black
+    BorderColor Black
 }
-interface SpoolLengthReducingStrategy{
-boolean reduceLength()
+
+title Strategy Pattern for PrinterManager
+
+interface PrintTaskSelector <<strategy>> {
+    +selectTask(): Task
 }
+
+class StandardFDMTaskSelector  {
+    +selectTask(): Task
+}
+class HousedPrinterTaskSelector {
+    +selectTask(): Task
+}
+class MultiColorTaskSelector  {
+    +selectTask(): Task
+}
+
+class PrinterManager {
+    -taskSelector: PrintTaskSelector
+    +setTaskSelector(selector: PrintTaskSelector): void
+    +selectTask(): Task
+}
+
+PrintTaskSelector <|-- StandardFDMTaskSelector : implements
+PrintTaskSelector <|-- HousedPrinterTaskSelector : implements
+PrintTaskSelector <|-- MultiColorTaskSelector : implements
+
+PrinterManager o-- PrintTaskSelector : uses
 @enduml
