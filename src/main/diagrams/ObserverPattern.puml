@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/class-diagram
+ class PrinterManager {
+        -observers: List
+        -printers: List
+        -printTasks: List
+        +addObserver(observer)
+        +removeObserver(observer)
+        +selectPrintTask()
+        +registerCompletion()
+        +registerFailure()
+    }
+
+    class PrinterObserver {
+        <<interface>>
+        +onPrintStarted()
+        +onPrintCompleted()
+        +onPrintFailed()
+    }
+
+    class Logger {
+        +onPrintStarted()
+        +onPrintCompleted()
+        +onPrintFailed()
+    }
+
+    class EmailNotifier {
+        +onPrintStarted()
+        +onPrintCompleted()
+        +onPrintFailed()
+    }
+
+    PrinterManager ..> PrinterObserver : notifies
+    PrinterObserver <|.. Logger : implements
+    PrinterObserver <|.. EmailNotifier : implements
+
+@enduml
