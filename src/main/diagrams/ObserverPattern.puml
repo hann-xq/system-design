@@ -1,37 +1,32 @@
 @startuml
-'https://plantuml.com/class-diagram
- class PrinterManager {
-        -observers: List
-        -printers: List
-        -printTasks: List
-        +addObserver(observer)
-        +removeObserver(observer)
-        +selectPrintTask()
-        +registerCompletion()
-        +registerFailure()
-    }
+title Observer Pattern for Printer Manager and Dashboard
 
-    class PrinterObserver {
-        <<interface>>
-        +onPrintStarted()
-        +onPrintCompleted()
-        +onPrintFailed()
-    }
+interface Subject {
+    + addObserver(Observer o)
+    + removeObserver(Observer o)
+    + notifyObservers()
+}
 
-    class Logger {
-        +onPrintStarted()
-        +onPrintCompleted()
-        +onPrintFailed()
-    }
+interface Observer {
+    + update(spoolStatus: String, completedTasks: int)
+}
 
-    class EmailNotifier {
-        +onPrintStarted()
-        +onPrintCompleted()
-        +onPrintFailed()
-    }
+class PrinterManager implements Subject {
+    - observers: List<Observer>
+    - spoolStatus: String
+    - completedTasks: int
+    + addObserver(Observer o)
+    + removeObserver(Observer o)
+    + notifyObservers()
+    + setSpoolStatus(String status)
+    + taskCompleted()
+}
 
-    PrinterManager ..> PrinterObserver : notifies
-    PrinterObserver <|.. Logger : implements
-    PrinterObserver <|.. EmailNotifier : implements
+class Dashboard implements Observer {
+    + update(spoolStatus: String, completedTasks: int)
+    + displaySpoolStatus()
+    + displayCompletedTasks()
+}
 
+PrinterManager --> Observer : notifies
 @enduml
