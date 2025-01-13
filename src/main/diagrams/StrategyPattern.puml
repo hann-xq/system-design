@@ -7,7 +7,7 @@ skinparam class {
 
 title Strategy Pattern for PrinterManager
 
-interface PrintTaskSelector <<strategy>> {
+interface PrintTaskSelectorStrategy{
     +selectTask(): Task
 }
 
@@ -27,9 +27,9 @@ class PrinterManager {
     +selectTask(): Task
 }
 
-PrintTaskSelector <|-- StandardFDMTaskSelector : implements
-PrintTaskSelector <|-- HousedPrinterTaskSelector : implements
-PrintTaskSelector <|-- MultiColorTaskSelector : implements
+PrintTaskSelectorStrategy <|-- StandardFDMTaskSelector : implements
+PrintTaskSelectorStrategy <|-- HousedPrinterTaskSelector : implements
+PrintTaskSelectorStrategy <|-- MultiColorTaskSelector : implements
 
-PrinterManager o-- PrintTaskSelector : uses
+PrinterManager o-- PrintTaskSelectorStrategy : uses
 @enduml
