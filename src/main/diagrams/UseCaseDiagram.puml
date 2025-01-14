@@ -1,0 +1,56 @@
+@startuml
+skinparam pageBorderColor white
+skinparam pageMargin 10
+skinparam actorStyle awesome
+skinparam usecase {
+    BackgroundColor white
+    BorderColor black
+    ArrowColor black
+    FontSize 12
+}
+skinparam actorBackgroundColor white
+skinparam packageBackgroundColor transparent
+
+title 3D Printer Management System
+
+rectangle "System Boundary" {
+    package "Customer Interaction" {
+        usecase "Order via Webshop\n(U3)" as UC1
+        usecase "Select Pickup Location" as UC2
+    }
+
+    package "Employee Tasks" {
+        usecase "Receive Print\nCompletion Signal\n(U1)" as UC3
+        usecase "Register Printer\nas Ready\n(U2)" as UC4
+        usecase "View Print Label/\nPackaging Info\n(U5)" as UC5
+    }
+
+    package "Management" {
+        usecase "View Print Statistics\n(U4)" as UC6
+    }
+
+    package "Automated Operations" {
+        usecase "Auto-Assign\nPrint Farm" as UC7
+        usecase "Control Printers" as UC8
+        usecase "Track Printer\nStatus" as UC9
+    }
+}
+
+actor "Customer" as customer
+actor "Employee\n(Tablet Access-NF1)" as employee
+actor "Owner" as owner
+actor "System" as system
+
+customer --> UC1
+customer --> UC2
+employee --> UC3
+employee --> UC4
+employee --> UC5
+owner --> UC6
+system --> UC7
+system --> UC8
+system --> UC9
+
+note "NF2: All controls available\nfrom different devices\nand locations" as N1
+
+@enduml

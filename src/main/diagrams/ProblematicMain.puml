@@ -1,0 +1,50 @@
+@startuml "Current Problematic Structure"
+
+skinparam class {
+
+}
+
+class Main {
+    - scanner: Scanner
+    - manager: PrinterManager
+    - printStrategy: String
+    + run(args: String[])
+    + menu()
+    + menuChoice(max: int)
+    + stringInput()
+    + numberInput()
+    + numberInput(min: int, max: int)
+    - startPrintQueue()
+    - changePrintStrategy()
+    - registerPrintCompletion()
+    - registerPrinterFailure()
+    - addNewPrintTask()
+    - showPrints()
+    - showSpools()
+    - showPrinters()
+    - showPendingPrintTasks()
+    - readPrintsFromFile(filename: String)
+    - readPrintersFromFile(filename: String)
+    - readSpoolsFromFile(filename: String)
+}
+
+class PrinterManager {
+    - printers: List<Printer>
+    - prints: List<Print>
+    - spools: List<Spool>
+    + getPrinters()
+    + getPrints()
+    + getSpools()
+}
+
+Main --> PrinterManager: uses
+note right of Main
+  Problems:
+  1. Input/Output handling
+  2. File management
+  3. Menu system
+  4. Business logic
+  5. State management
+end note
+
+@enduml
