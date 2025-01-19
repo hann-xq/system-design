@@ -294,14 +294,13 @@ public class PrinterIntegrationTests {
         }
         assertNotNull(redDwarf, "Red Dwarf printer should exist");
 
-        // Create the Moon Lamp print and task
         Print moonLamp = createTestPrint("Moon Lamp");
         PrintTask moonLampTask = new PrintTask(moonLamp, Arrays.asList("Blue"), FilamentType.PLA);
 
         assertTrue(redDwarf.filamentAndMaxColorsMatches(moonLampTask),
                 "Red Dwarf should print Moon Lamp in PLA");
 
-        // Test that other printers can't print Moon Lamp
+
         for (Printer printer : printerManager.getPrinters()) {
             if (!printer.getName().equals("Red Dwarf")) {
                 assertFalse(printer.filamentAndMaxColorsMatches(moonLampTask),
