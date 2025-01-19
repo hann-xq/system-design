@@ -1,7 +1,9 @@
-package nl.saxion.Models;
+package nl.saxion.Models.models;
+
+import nl.saxion.Models.DTOs.PrintDTO;
+import nl.saxion.Models.DTOs.PrintTaskDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 public class PrintTask {
     private Print print;
@@ -26,6 +28,11 @@ public class PrintTask {
 
     public Print getPrint(){
         return print;
+    }
+
+    public PrintTaskDTO toDTO(){
+        PrintDTO printDTO = this.getPrint().toDTO();
+        return new PrintTaskDTO(printDTO, this.colors, this.filamentType);
     }
 
     @Override
