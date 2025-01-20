@@ -1,4 +1,6 @@
-package nl.saxion.Models;
+package nl.saxion.Models.models;
+
+import nl.saxion.Models.DTOs.PrintDTO;
 
 import java.util.ArrayList;
 
@@ -49,5 +51,9 @@ public class Print {
 
     public ArrayList<Double> getFilamentLength() {
         return filamentLength;
+    }
+
+    public PrintDTO toDTO() {
+        return new PrintDTO(this.name, this.height, this.width, this.length, this.filamentLength, this.printTime);
     }
 }

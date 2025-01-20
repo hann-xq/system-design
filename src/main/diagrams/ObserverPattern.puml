@@ -1,37 +1,38 @@
 @startuml
 'https://plantuml.com/class-diagram
- class PrinterManager {
-        -observers: List
-        -printers: List
-        -printTasks: List
-        +addObserver(observer)
-        +removeObserver(observer)
-        +selectPrintTask()
-        +registerCompletion()
-        +registerFailure()
-    }
+skinparam {
+}
 
-    class PrinterObserver {
-        <<interface>>
-        +onPrintStarted()
-        +onPrintCompleted()
-        +onPrintFailed()
-    }
+TaskManager o-- DashboardObserver
+Main *-- PrintFacade
+PrintFacade *-- TaskManager
 
-    class Logger {
-        +onPrintStarted()
-        +onPrintCompleted()
-        +onPrintFailed()
-    }
+interface DashboardObserver {
+    void updateSpoolChanges(int spoolChanges);
+    void updatePrintsFulfilled(int printsFulfilled);
+}
 
-    class EmailNotifier {
-        +onPrintStarted()
-        +onPrintCompleted()
-        +onPrintFailed()
-    }
+class TaskManager {
+    - List<DashboardObserver> observers;
+    - int spoolChanges;
+    - int printsFulfilled;
+    + void addObserver(DashboardObserver observer)
+    + void removeObserver(DashboardObserver observer) {
+    - void notifySpoolChanges()
+    - void notifyPrintsFulfilled()
+    - void incrementSpoolChanges()
+    - void incrementPrintsFulfilled()
+}
 
-    PrinterManager ..> PrinterObserver : notifies
-    PrinterObserver <|.. Logger : implements
-    PrinterObserver <|.. EmailNotifier : implements
+class PrintFacade {
+    + void addObserver(DashboardObserver observer)
+    + void removeObserver(DashboardObserver observer)
+}
 
+class Main implements DashboardObserver {
+    void updateSpoolChanges(int spoolChanges);
+    void updatePrintsFulfilled(int printsFulfilled);
+}
+
+PrinterManager --> Observer : notifies
 @enduml

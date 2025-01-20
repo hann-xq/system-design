@@ -9,18 +9,22 @@ class PrinterFactory {
   + createPrinter(int type, PrinterDescription printerDescription, PrintSize printSize): Printer
 }
 
-Printer --* PrintSize
-Printer --* PrinterDescription
+Printer *-- PrintSize
+Printer *-- PrinterDescription
 
 abstract class Printer {
     - PrinterDescription printerDescription
     - PrintSize printSize
-    - Spool currentSpool
+    - boolean isHoused
 
-    +Printer(int id, String printerName, String manufacturer, PrintSize printSize)
-    +getId()
-    +printFits(Print print)
-    +getName()
+    + Printer(PrinterDescription printerDescription, PrintSize printSize, boolean isHoused)
+    + int getId()
+    + String getName()
+    + boolean printFits(Print print)
+    + boolean filamentAndMaxColorsMatches(PrintTask printTask)
+    + boolean spoolsMatchForPrintTask(PrintTask printTask)
+    + void reduceSpoolsByLength(List<Double> filamentLength)
+
 }
 
 class PrintSize {
@@ -28,6 +32,9 @@ class PrintSize {
     - int maxY
     - int maxZ
     + PrintSize(int maxX, int maxY, int maxZ)
+    + int getMaxX()
+    + int getMaxY()
+    + int getMaxZ()
 }
 
 class PrinterDescription {
@@ -35,28 +42,28 @@ class PrinterDescription {
     - String name
     - String manufacturer
     + PrinterDescription (int id, String printerName, String manufacturer)
+    + int getId()
+    + String getName()
+    + String getManufacturer()
 }
 
 class SingleSpoolPrinter extends Printer {
-    +getCurrentSpool()
-    +setCurrentSpool(Spool spool)
+    - Spool currentSpool;
+    + SingleSpooledPrinter(PrinterDescription printerDescription, PrintSize printSize, boolean isHoused)
+    + getCurrentSpool()
+    + setCurrentSpool(Spool spool)
 }
 
 class MultiSpoolPrinter extends Printer {
-    +Spool[] spools
-    +getCurrentSpools()
-    +setCurrentSpools(ArrayList<Spool> spools)
+    - List<Spool> spools;
+    + MultiSpooledPrinter(PrinterDescription printerDescription, PrintSize printSize, boolean isHoused)
+    + List<Spool> getCurrentSpools()
+    + void setCurrentSpools(List<Spool> spools)
 }
 
-class StandardFDM extends SingleSpoolPrinter {
-}
-
-class MultiColor extends MultiSpoolPrinter {
-    -int maxColors;
-    +getMaxColors()
-}
-
-class HousedPrinter extends SingleSpoolPrinter {
+class MultiColorPrinter extends MultiSpoolPrinter {
+    - int maxColors;
+    + getMaxColors()
 }
 
 @enduml

@@ -1,11 +1,16 @@
-package nl.saxion.Models;
+package nl.saxion.Models.models;
 
-import java.util.Objects;
+import com.opencsv.bean.CsvBindByName;
+import nl.saxion.Models.DTOs.SpoolDTO;
 
 public class Spool {
+    @CsvBindByName(column = "id")
     private final int id;
+    @CsvBindByName(column = "color")
     private final String color;
+    @CsvBindByName(column = "filamentType")
     private final FilamentType filamentType;
+    @CsvBindByName(column = "length")
     private double length;
 
     public Spool(int id, String color, FilamentType filamentType, double length) {
@@ -51,6 +56,10 @@ public class Spool {
 
     public FilamentType getFilamentType(){
         return filamentType;
+    }
+
+    public SpoolDTO toDTO() {
+        return new SpoolDTO(id, color, filamentType, length);
     }
 
     @Override
