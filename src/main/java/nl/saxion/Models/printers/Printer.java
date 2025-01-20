@@ -1,5 +1,6 @@
 package nl.saxion.Models.printers;
 
+import nl.saxion.Models.DTOs.PrinterDTO;
 import nl.saxion.Models.models.Print;
 import nl.saxion.Models.models.PrintTask;
 
@@ -27,6 +28,10 @@ public abstract class Printer {
 
     public boolean printFits(Print print) {
         return print.getHeight() <= this.printSize.getMaxZ() && print.getWidth() <= this.printSize.getMaxX() && print.getLength() <= this.printSize.getMaxY();
+    }
+
+    public PrinterDTO toDTO() {
+        return new PrinterDTO(this.getId(), this.getName());
     }
 
     public abstract boolean filamentAndMaxColorsMatches(PrintTask printTask);

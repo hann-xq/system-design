@@ -2,6 +2,7 @@ package nl.saxion;
 
 import nl.saxion.Models.DTOs.PrintDTO;
 import nl.saxion.Models.DTOs.PrintTaskDTO;
+import nl.saxion.Models.DTOs.PrinterDTO;
 import nl.saxion.Models.DTOs.SpoolDTO;
 import nl.saxion.Models.models.FilamentType;
 import nl.saxion.Models.models.Print;
@@ -39,12 +40,17 @@ public class PrintFacade {
         System.out.println("-----------------------------------");
     }
 
-    public List<Printer> getPrinters() {
-        return printerManager.getPrinters();
+    public List<PrinterDTO> getPrinters() {
+        List<PrinterDTO> list = new ArrayList<>();
+        for (Printer printer : printerManager.getPrinters()) {
+            list.add(printer.toDTO());
+        }
+        return list;
     }
 
-    public PrintTaskDTO getPrinterCurrentTask(Printer printer) {
-        return taskManager.getPrinterCurrentTask(printer).toDTO();
+    public PrintTaskDTO getPrinterCurrentTask(PrinterDTO printer) {
+        Printer p = printerManager.getPrinter(printer.id());
+        return taskManager.getPrinterCurrentTask(p).toDTO();
     }
 
     public List<PrintDTO> getPrints() {

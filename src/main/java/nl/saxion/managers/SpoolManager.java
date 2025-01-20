@@ -16,26 +16,12 @@ public class SpoolManager {
         return list.stream().anyMatch(o -> o.getColor().equals(name));
     }
 
-    public void addSpool(Spool spool) {
-        spools.add(spool);
-        freeSpools.add(spool);
-    }
-
     public List<Spool> getSpools() {
         return spools;
     }
 
     public List<Spool> getFreeSpools() {
         return freeSpools;
-    }
-
-    public Spool getSpoolByID(int id) {
-        for (Spool s : spools) {
-            if (s.getId() == id) {
-                return s;
-            }
-        }
-        return null;
     }
 
     public void readSpoolsFromJson(String filename) {
@@ -46,6 +32,7 @@ public class SpoolManager {
         ObjectCollector<Spool> jsonCollector = new ObjectCollector<>();
         jsonReader.read(filename, jsonCollector);
         spools = jsonCollector.getObjects();
+        freeSpools = jsonCollector.getObjects();
     }
 
     public void readSpoolsFromCSV(String filename) {
@@ -56,5 +43,6 @@ public class SpoolManager {
         ObjectCollector<Spool> csvCollector = new ObjectCollector<>();
         csvReader.read(filename, csvCollector);
         spools = csvCollector.getObjects();
+        freeSpools = csvCollector.getObjects();
     }
 }
