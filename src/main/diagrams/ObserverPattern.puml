@@ -34,4 +34,5 @@ class Main implements DashboardObserver {
     void updatePrintsFulfilled(int printsFulfilled);
 }
 
+PrinterManager --> Observer : notifies
 @enduml

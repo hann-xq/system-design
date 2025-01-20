@@ -23,18 +23,27 @@ public class SingleSpooledPrinter extends Printer {
 
     @Override
     public boolean filamentAndMaxColorsMatches(PrintTask printTask) {
-        boolean isABS = printTask.getFilamentType() == FilamentType.ABS;
         boolean maxColorMatches = printTask.getColors().size() == 1;
+        boolean isABSPrint = printTask.getFilamentType() == FilamentType.ABS;
 
-        if (this.isHoused) {
-            return isABS && maxColorMatches;
+        // First check filament type compatibility
+        if (isABSPrint) {
+            // Only housed printers can print ABS
+            if (!isHoused) {
+                return false;
+            }
+            return maxColorMatches;
         }
 
-        return !isABS && maxColorMatches;
+        // For non-ABS prints (PLA/PETG)
+        return maxColorMatches;
     }
 
     @Override
     public boolean spoolsMatchForPrintTask(PrintTask printTask) {
+        if (getCurrentSpool() == null) {
+            return false;
+        }
         return getCurrentSpool().spoolMatch(printTask.getColors().get(0), printTask.getFilamentType());
     }
 

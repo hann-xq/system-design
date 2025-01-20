@@ -1,0 +1,29 @@
+@startuml
+node "VPS - TransIP" {
+artifact "Web Shop Application" as WSA
+}
+node "Application Server" {
+artifact "3D Printer Scheduler Application" as PSA
+database "Printer Statistics Database" as PSDB
+}
+node "Print Farm - Enschede" {
+node "Cluster Controller" as CC1 {
+artifact "Printer Cluster Software" as PCS1
+}
+}
+node "Print Farm - Amsterdam" {
+node "Cluster Controller" as CC2 {
+artifact "Printer Cluster Software" as PCS2
+}
+}
+node "Employee Tablet" as ET {
+artifact "Tablet Application" as TA
+}
+WSA -- PSA : HTTP/REST
+PSA -- PSDB : JDBC
+PSA -- CC1 : TCP/IP
+PSA -- CC2 : TCP/IP
+PSA -- TA : WebSocket
+CC1 -- PCS1 : USB
+CC2 -- PCS2 : USB
+@enduml

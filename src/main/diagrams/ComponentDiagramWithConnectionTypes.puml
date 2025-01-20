@@ -1,0 +1,32 @@
+@startuml
+package "Web Shop" {
+[Order Management]
+}
+package "3D Printer Scheduler" {
+[Order Processor]
+[Print Queue Manager]
+[Printer Controller]
+[Statistics Tracker]
+[Notification Service]
+}
+package "Printer Farm - Enschede" {
+[Printer Cluster] as PC1
+}
+package "Printer Farm - Amsterdam" {
+[Printer Cluster] as PC2
+}
+database "Printer Statistics DB" {
+[Statistics Data]
+}
+[Web Shop] -down-> [Order Processor] : HTTP/REST
+[Order Processor] -right-> [Print Queue Manager] : Internal
+[Print Queue Manager] -down-> [Printer Controller] : Internal
+[Printer Controller] -- PC1 : TCP/IP
+[Printer Controller] -- PC2 : TCP/IP
+[Printer Controller] -up-> [Statistics Tracker] : Internal
+[Statistics Tracker] -left-> [Statistics Data] : JDBC
+[Printer Controller] -down-> [Notification Service] : Internal
+[Notification Service] -up-> [Web Shop] : HTTP/REST
+[Notification Service] -left-> PC1 : WebSocket
+[Notification Service] -right-> PC2 : WebSocket
+@enduml

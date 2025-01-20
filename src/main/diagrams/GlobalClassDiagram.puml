@@ -1,0 +1,85 @@
+@startuml
+title Global Class Diagram for Printer Management System
+
+' Facade Pattern
+class PrinterFacade {
+    + startPrinterQueue()
+    + addNewPrintTask()
+    + registerPrintCompletion()
+}
+
+' Main Class
+class Main {
+    + main(String[] args)
+    ' Interacts only with PrinterFacade
+}
+
+' Subsystems managed by Facade
+class SpoolManager {
+    + manageSpool()
+}
+class PrintTaskManager {
+    + addTask()
+    + getNextTask()
+}
+class PrinterManager {
+    + addPrinter()
+    + removePrinter()
+    + notifyObservers()
+    - taskSelector: PrintTaskSelectorStrategy
+}
+
+' Factory Method Pattern
+class PrinterFactory {
+    + createStandardFDM(): Printer
+    + createHousedPrinter(): Printer
+    + createMultiColor(): Printer
+}
+
+abstract class Printer {
+    + getStatus()
+    + print()
+}
+class StandardFDM extends Printer {}
+class HousedPrinter extends Printer {}
+class MultiColor extends Printer {}
+
+' Strategy Pattern
+interface PrintTaskSelectorStrategy {
+    + selectTask()
+}
+class StandardFDMTaskSelector implements PrintTaskSelectorStrategy {}
+class HousedPrinterTaskSelector implements PrintTaskSelectorStrategy {}
+class MultiColorTaskSelector implements PrintTaskSelectorStrategy {}
+
+' Observer Pattern
+interface Subject {
+    + addObserver(Observer o)
+    + removeObserver(Observer o)
+    + notifyObservers()
+}
+interface Observer {
+    + update(String spoolStatus, int completedTasks)
+}
+class Dashboard implements Observer {
+    + update(String spoolStatus, int completedTasks)
+    + displaySpoolStatus()
+    + displayCompletedTasks()
+}
+
+' Relationships
+Main --> PrinterFacade
+PrinterFacade --> SpoolManager
+PrinterFacade --> PrintTaskManager
+PrinterFacade --> PrinterManager
+PrinterManager --> Observer : notifies
+Observer <|.. Dashboard
+PrinterManager --> PrintTaskSelectorStrategy
+PrintTaskSelectorStrategy <|.. StandardFDMTaskSelector
+PrintTaskSelectorStrategy <|.. HousedPrinterTaskSelector
+PrintTaskSelectorStrategy <|.. MultiColorTaskSelector
+PrinterFactory --> Printer
+Printer <|-- StandardFDM
+Printer <|-- HousedPrinter
+Printer <|-- MultiColor
+@enduml

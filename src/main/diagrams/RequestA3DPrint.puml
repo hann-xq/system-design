@@ -1,0 +1,47 @@
+@startuml
+start
+:Customer places order via Web Shop;
+:Web Shop sends order to Message Queue;
+
+partition "3D Printer Scheduler" {
+  :Message Queue receives order;
+  :Job Assignment Service retrieves order from Message Queue;
+
+  if (Is pickup location specified?) then (yes)
+    :Assign job to Printer Controller at specified location;
+  else (no)
+    :Assign job to available Printer Controller;
+  endif
+
+  :Printer Management Service checks printer availability;
+
+  if (Is a printer available?) then (yes)
+    :Send print job to Printer Controller;
+  else (no)
+    :Add job to print queue;
+    :Wait for printer availability;
+  endif
+
+  :Printer Controller receives print job;
+  :Printer Cluster executes print job;
+
+  if (Is print job complete?) then (yes)
+    :Notification Service sends print completion alert to Tablet App;
+    :Statistics Service collects print job data;
+  else (no)
+    :Continue printing;
+  endif
+}
+
+partition "Print Farm Employee" {
+  :Tablet App receives print completion alert;
+  :Employee removes completed print from printer;
+  :Employee registers printer as ready for next job;
+  :Employee packages and labels print for shipping/pickup;
+}
+
+:Statistics DB stores print job data;
+:Web Shop updates order status;
+
+stop
+@enduml
