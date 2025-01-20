@@ -9,18 +9,20 @@ class PrinterFactory {
   + createPrinter(int type, PrinterDescription printerDescription, PrintSize printSize): Printer
 }
 
-Printer --* PrintSize
-Printer --* PrinterDescription
+Printer *-- PrintSize
+Printer *-- PrinterDescription
 
 abstract class Printer {
     - PrinterDescription printerDescription
     - PrintSize printSize
     - Spool currentSpool
+    boolean isHoused
 
-    +Printer(int id, String printerName, String manufacturer, PrintSize printSize)
-    +getId()
-    +printFits(Print print)
-    +getName()
+    + Printer(PrinterDescription printerDescription, PrintSize printSize, boolean isHoused)
+    + int getId()
+    + String getName()
+    + printFits(Print print)
+    + getName()
 }
 
 class PrintSize {
@@ -48,15 +50,10 @@ class MultiSpoolPrinter extends Printer {
     +setCurrentSpools(ArrayList<Spool> spools)
 }
 
-class StandardFDM extends SingleSpoolPrinter {
-}
-
 class MultiColor extends MultiSpoolPrinter {
     -int maxColors;
     +getMaxColors()
 }
 
-class HousedPrinter extends SingleSpoolPrinter {
-}
 
 @enduml
