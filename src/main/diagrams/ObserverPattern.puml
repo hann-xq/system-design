@@ -1,31 +1,37 @@
 @startuml
-title Observer Pattern for Printer Manager and Dashboard
-
-interface Subject {
-    + addObserver(Observer o)
-    + removeObserver(Observer o)
-    + notifyObservers()
+'https://plantuml.com/class-diagram
+skinparam {
 }
 
-interface Observer {
-    + update(spoolStatus: String, completedTasks: int)
+TaskManager o-- DashboardObserver
+Main *-- PrintFacade
+PrintFacade *-- TaskManager
+
+interface DashboardObserver {
+    void updateSpoolChanges(int spoolChanges);
+    void updatePrintsFulfilled(int printsFulfilled);
 }
 
-class PrinterManager implements Subject {
-    - observers: List<Observer>
-    - spoolStatus: String
-    - completedTasks: int
-    + addObserver(Observer o)
-    + removeObserver(Observer o)
-    + notifyObservers()
-    + setSpoolStatus(String status)
-    + taskCompleted()
+class TaskManager {
+    - List<DashboardObserver> observers;
+    - int spoolChanges;
+    - int printsFulfilled;
+    + void addObserver(DashboardObserver observer)
+    + void removeObserver(DashboardObserver observer) {
+    - void notifySpoolChanges()
+    - void notifyPrintsFulfilled()
+    - void incrementSpoolChanges()
+    - void incrementPrintsFulfilled()
 }
 
-class Dashboard implements Observer {
-    + update(spoolStatus: String, completedTasks: int)
-    + displaySpoolStatus()
-    + displayCompletedTasks()
+class PrintFacade {
+    + void addObserver(DashboardObserver observer)
+    + void removeObserver(DashboardObserver observer)
+}
+
+class Main implements DashboardObserver {
+    void updateSpoolChanges(int spoolChanges);
+    void updatePrintsFulfilled(int printsFulfilled);
 }
 
 PrinterManager --> Observer : notifies

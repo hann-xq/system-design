@@ -10,7 +10,6 @@ import java.util.List;
 
 public class PrintManager {
     private List<Print> prints = new ArrayList<Print>();
-    private PrinterManager printerManager;
 
     public void addPrint(String name, int height, int width, int length, ArrayList<Double> filamentLength, int printTime) {
         Print p = new Print(name, height, width, length, filamentLength, printTime);
@@ -44,6 +43,6 @@ public class PrintManager {
         FileReaderAdapter<Print> jsonReader = new JSONReaderAdapter<>(Print.class);
         ObjectCollector<Print> jsonCollector = new ObjectCollector<>();
         jsonReader.read(filename, jsonCollector);
-        System.out.println("JSON Prints: " + jsonCollector.getObjects());
+        prints = jsonCollector.getObjects();
     }
 }

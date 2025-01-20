@@ -2,8 +2,8 @@
 'https://plantuml.com/class-diagram
 'skinparam classAttributeIconSize 0
 
-Printer --* PrintSize
-Printer --* PrinterDescription
+Printer *-- PrintSize
+Printer *-- PrinterDescription
 
 abstract class Printer {
     - PrinterDescription printerDescription
@@ -54,7 +54,7 @@ class MultiSpoolPrinter extends Printer {
     + void setCurrentSpools(List<Spool> spools)
 }
 
-class MultiColor extends MultiSpoolPrinter {
+class MultiColorPrinter extends MultiSpoolPrinter {
     - int maxColors;
     + getMaxColors()
 }

@@ -2,7 +2,7 @@
 'https://plantuml.com/class-diagram
 skinparam classAttributeIconSize 0
 
-Main ..> printerFacade
+Main ..> PrintFacade
 
 
 class Main {
@@ -13,7 +13,7 @@ class Main {
     numberInput(int min, int max)
 }
 
-class printerFacade {
+class PrintFacade {
     PrinterManager printerManager;
     PrinterManager printManager;
     PrintTaskManager printTaskManager;
@@ -30,10 +30,10 @@ class printerFacade {
 }
 
 package managers {
-printerFacade *-- PrinterManager
-printerFacade *-- PrintManager
-printerFacade *-- PrintTaskManager
-printerFacade *-- SpoolManager
+PrintFacade o-- PrinterManager
+PrintFacade o-- PrintManager
+PrintFacade o-- PrintTaskManager
+PrintFacade o-- SpoolManager
     class PrinterManager {
         addPrinter()
         getPrinters()

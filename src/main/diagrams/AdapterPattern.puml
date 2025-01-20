@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam class {
+}
+
+interface FileReaderAdapter<T> {
+    void read(String filename, ObjectProcessor<T> processor);
+}
+
+interface ObjectProcessor<T> {
+    void process(T object);
+}
+
+class ObjectCollector<T> implements ObjectProcessor<T> {
+    - List<T> objects
+
+    + void process(T object)
+    + List<T> getObjects()
+}
+
+class CSVReaderAdapter<T> implements FileReaderAdapter<T> {
+    - Class<T> type
+    + void read(String filename, ObjectProcessor<T> processor)
+}
+
+class JSONReaderAdapter<T> implements FileReaderAdapter<T> {
+    - Class<T> type
+    + void read(String filename, ObjectProcessor<T> processor)
+}
+
+class SpoolManager {
+    + void readSpoolsFromCSV(String filename)
+}
+
+class PrintManager {
+    + void readPrintsFromFile(String filename)
+}
+
+SpoolManager ..> FileReaderAdapter
+SpoolManager ..> ObjectProcessor
+PrintManager ..> FileReaderAdapter
+PrintManager ..> ObjectProcessor
+
+
+@enduml

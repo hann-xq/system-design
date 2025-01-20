@@ -1,6 +1,4 @@
-package nl.saxion.Models;
-
-import nl.saxion.Models.printers.*;
+package nl.saxion.Models.printers;
 
 public class PrinterFactory {
     public Printer createPrinter(int printerType, PrinterDescription printerDescription, PrintSize printSize, int maxColors) {

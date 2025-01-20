@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 public class TaskManager {
-    private List<PrintTask> pendingPrintTasks = new ArrayList<>();
-    private Map<Printer, PrintTask> runningPrintTasks = new HashMap();
-    private SpoolManager spoolManager;
-    private PrintManager printManager;
-    private PrinterManager printerManager;
-    private List<DashboardObserver> observers = new ArrayList<>();
+    private final List<PrintTask> pendingPrintTasks = new ArrayList<>();
+    private final Map<Printer, PrintTask> runningPrintTasks = new HashMap();
+    private final SpoolManager spoolManager;
+    private final PrintManager printManager;
+    private final PrinterManager printerManager;
+    private final List<DashboardObserver> observers = new ArrayList<>();
     private int spoolChanges;
     private int printsFulfilled;
     private SelectPrintTaskStrategy strategy;
@@ -241,12 +241,12 @@ public class TaskManager {
         }
     }
 
-    public void incrementSpoolChanges() {
+    private void incrementSpoolChanges() {
         spoolChanges++;
         notifySpoolChanges();
     }
 
-    public void incrementPrintsFulfilled() {
+    private void incrementPrintsFulfilled() {
         printsFulfilled++;
         notifyPrintsFulfilled();
     }

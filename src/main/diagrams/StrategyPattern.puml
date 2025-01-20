@@ -1,35 +1,28 @@
 @startuml
 skinparam class {
 
-    ArrowColor Black
-    BorderColor Black
 }
 
-title Strategy Pattern for PrinterManager
-
-interface PrintTaskSelectorStrategy{
-    +selectTask(): Task
+interface SelectPrintTaskStrategy <<strategy>> {
+    void selectPrintTask(Printer printer)
+    String getStrategyName()
 }
 
-class StandardFDMTaskSelector  {
-    +selectTask(): Task
+class LessSpoolChangeStrategy implements SelectPrintTaskStrategy {
+    - TaskManager taskManager
+    + LessSpoolChangeStrategy(TaskManager taskManager)
 }
-class HousedPrinterTaskSelector {
-    +selectTask(): Task
-}
-class MultiColorTaskSelector  {
-    +selectTask(): Task
-}
-
-class PrinterManager {
-    -taskSelector: PrintTaskSelector
-    +setTaskSelector(selector: PrintTaskSelector): void
-    +selectTask(): Task
+class EfficientSpoolUsageStrategy implements SelectPrintTaskStrategy {
+    - SpoolManager spoolManager;
+    - TaskManager taskManager;
+    + EfficientSpoolUsageStrategy(TaskManager taskManager, SpoolManager spoolManager)
 }
 
-PrintTaskSelectorStrategy <|-- StandardFDMTaskSelector : implements
-PrintTaskSelectorStrategy <|-- HousedPrinterTaskSelector : implements
-PrintTaskSelectorStrategy <|-- MultiColorTaskSelector : implements
+class TaskManager {
+    - SelectPrintTaskStrategy strategy;
+    + void selectPrintStrategy(SelectPrintTaskStrategy strategy)
+    + String getStrategy()
+}
 
-PrinterManager o-- PrintTaskSelectorStrategy : uses
+TaskManager *-- SelectPrintTaskStrategy
 @enduml

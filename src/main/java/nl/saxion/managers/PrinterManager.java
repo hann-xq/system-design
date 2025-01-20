@@ -1,6 +1,6 @@
 package nl.saxion.managers;
 
-import nl.saxion.Models.PrinterFactory;
+import nl.saxion.Models.printers.PrinterFactory;
 import nl.saxion.Models.models.PrintTask;
 import nl.saxion.Models.printers.*;
 import org.json.simple.JSONArray;
@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 public class PrinterManager {
-    private List<Printer> printers = new ArrayList<Printer>();
-    private List<Printer> freePrinters = new ArrayList<>();
-    private Map<Printer, PrintTask> runningPrintTasks = new HashMap();
+    private final List<Printer> printers = new ArrayList<Printer>();
+    private final List<Printer> freePrinters = new ArrayList<>();
+    private final Map<Printer, PrintTask> runningPrintTasks = new HashMap();
 
     public void addPrinter(int printerType, PrinterDescription printerDescription, PrintSize printSize, int maxColors) {
         PrinterFactory factory = new PrinterFactory();
@@ -61,6 +61,15 @@ public class PrinterManager {
         }
     }
 
+    public Printer getPrinter(int id) {
+        for (Printer printer : printers) {
+            if (printer.getId() == id) {
+                return printer;
+            }
+        }
+        return null;
+    }
+
     public List<Printer> getPrinters() {
         return printers;
     }
@@ -68,12 +77,4 @@ public class PrinterManager {
     public List<Printer> getFreePrinters() {
         return freePrinters;
     }
-
-    public PrintTask getPrinterCurrentTask(Printer printer) {
-        if (!runningPrintTasks.containsKey(printer)) {
-            return null;
-        }
-        return runningPrintTasks.get(printer);
-    }
-
 }

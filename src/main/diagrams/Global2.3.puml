@@ -1,0 +1,94 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Main implements observer.DashboardObserver {}
+class PrintFacade {}
+
+package managers {
+    class PrinterManager
+    class PrintManager
+    class TaskManager
+    class SpoolManager
+}
+
+package adapters {
+    interface FileReaderAdapter<T> {}
+
+    interface ObjectProcessor<T> {}
+
+    class ObjectCollector<T> implements ObjectProcessor<T> {
+    }
+
+    class CSVReaderAdapter<T> implements FileReaderAdapter<T> {
+    }
+
+    class JSONReaderAdapter<T> implements FileReaderAdapter<T> {
+    }
+}
+
+package models {
+    enum FilamentType
+    class Print {}
+    class PrintTask {}
+    class Spool {}
+}
+
+package observer {
+    interface DashboardObserver
+}
+
+package printers {
+    class MultiColorPrinter extends MultiSpooledPrinter
+    class MultiSpooledPrinter extends Printer
+    class SingleSpooledPrinter extends Printer
+    abstract class Printer
+    class PrinterDescription
+    class PrintSize
+    class PrinterFactory
+}
+
+package strategies {
+    interface SelectPrintTaskStrategy
+    class LessSpoolChangesStrategy implements SelectPrintTaskStrategy
+    class EfficientSpoolUsageStrategy implements SelectPrintTaskStrategy
+}
+
+'observer
+TaskManager o-- DashboardObserver
+Main *-- PrintFacade
+
+'printer classes
+PrintFacade o-- PrinterManager
+PrintFacade o-- PrintManager
+PrintFacade o-- TaskManager
+PrintFacade o-- SpoolManager
+Printer *-- PrintSize
+Printer *-- PrinterDescription
+
+'managers
+TaskManager ..> SpoolManager
+TaskManager ..> PrintManager
+TaskManager ..> PrinterManager
+PrinterManager ..> Printer
+PrinterManager ..> PrintTask
+PrinterManager ..> PrinterFactory
+SpoolManager ..> Spool
+PrintManager ..> Print
+
+'factory
+PrinterFactory -- Printer
+PrinterFactory ..> PrintSize
+PrinterFactory ..> PrinterDescription
+
+'adapter
+SpoolManager ..> FileReaderAdapter
+SpoolManager ..> ObjectProcessor
+PrintManager ..> FileReaderAdapter
+PrintManager ..> ObjectProcessor
+
+'strategy
+TaskManager *-- SelectPrintTaskStrategy
+
+
+
+@enduml

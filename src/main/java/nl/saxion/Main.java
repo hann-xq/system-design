@@ -2,6 +2,7 @@ package nl.saxion;
 
 import nl.saxion.Models.DTOs.PrintDTO;
 import nl.saxion.Models.DTOs.PrintTaskDTO;
+import nl.saxion.Models.DTOs.PrinterDTO;
 import nl.saxion.Models.DTOs.SpoolDTO;
 import nl.saxion.Models.models.FilamentType;
 import nl.saxion.Models.observer.DashboardObserver;
@@ -111,14 +112,13 @@ public class Main implements DashboardObserver {
         System.out.println("-----------------------------------");
     }
 
-    // TODO: This should be based on which printer is finished printing.
     private void registerPrintCompletion() {
-        List<Printer> printers = facade.getPrinters();
+        List<PrinterDTO> printers = facade.getPrinters();
         System.out.println("---------- Currently Running Printers ----------");
-        for (Printer p : printers) {
+        for (PrinterDTO p : printers) {
             PrintTaskDTO printerCurrentTask = facade.getPrinterCurrentTask(p);
             if (printerCurrentTask != null) {
-                System.out.println("- " + p.getId() + ": " + p.getName() + " - " + printerCurrentTask);
+                System.out.println("- " + p.id() + ": " + p.name() + " - " + printerCurrentTask);
             }
         }
         System.out.print("- Printer that is done (ID): ");
@@ -128,12 +128,12 @@ public class Main implements DashboardObserver {
     }
 
     private void registerPrinterFailure() {
-        List<Printer> printers = facade.getPrinters();
+        List<PrinterDTO> printers = facade.getPrinters();
         System.out.println("---------- Currently Running Printers ----------");
-        for (Printer p : printers) {
+        for (PrinterDTO p : printers) {
             PrintTaskDTO printerCurrentTask = facade.getPrinterCurrentTask(p);
             if (printerCurrentTask != null) {
-                System.out.println("- " + p.getId() + ": " + p.getName() + " > " + printerCurrentTask);
+                System.out.println("- " + p.id() + ": " + p.name() + " > " + printerCurrentTask);
             }
         }
         System.out.print("- Printer ID that failed: ");
@@ -228,7 +228,7 @@ public class Main implements DashboardObserver {
     private void showPrinters() {
         var printers = facade.getPrinters();
         System.out.println("--------- Available printers ---------");
-        for (Printer p : printers) {
+        for (PrinterDTO p : printers) {
             String output = p.toString();
             PrintTaskDTO currentTask = facade.getPrinterCurrentTask(p);
             if (currentTask != null) {
